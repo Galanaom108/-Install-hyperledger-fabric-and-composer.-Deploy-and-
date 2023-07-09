@@ -1,0 +1,45 @@
+Aim: Install hyperledger fabric and composer. Deploy and execute the application. 
+Program Steps:
+The following are prerequisites for installing the required development tools:
+ Operating Systems: Ubuntu Linux 14.04 / 16.04 LTS (both 64-bit), or Mac OS 10.12
+ Docker Engine: Version 17.03 or higher 
+ Docker-Compose: Version 1.8 or higher 
+ Node: 8.9 or higher (Note: version 9 is not supported) 
+ npm: v5.x
+ git: 2.9.x or higher  Python: 2.7.x
+ A code editor of your choice, we recommend VSCode.
+
+If installing Hyperledger Composer using Linux, the following points need to be kept in mind: 
+ Login as a normal user, rather than root.  Do not use sudo su to root. 
+ When installing prerequisites, use curl, then unzip using sudo.  Run prereqs-ubuntu.sh as a normal user. It may prompt for root password as some of its actions
+are required to be run as root.  Do not use npm with sudo or su to root to use it. 
+ Avoid installing node globally as root. Prerequisites
+To download prerequisites for Hyperledger Fabric development, run following command –
+| curl -O https://hyperledger.github.io/composer/latest/prereqs-ubuntu.sh
+This command will download and install -| docker-compose , docker-engine, npm, git, python etc  Give permissions — chmod u+x prereqs-ubuntu.sh
+ Run Script — ./prereqs-ubuntu.sh (restart system after it)  Essential CLI tools — npm install -g composer-cli@0.20
+Steps
+1. Create a directory — mkdir multichain_network
+3. Create genesis block and channeltx
+4. Update CA keys in docker composer file
+Open project in code editor. We have to change CA keys in “docker-compose-e2e-template.yaml” file, therefore navigate tothis file in vscode. Under services section we have two certificate authorities named “ca0” and “ca1”. For ca0 — go to command section under ca0 and find CA1_PRIVATE_KEY and replace it withprivate key –
+This key can be found in –
+For ca1 — goto command section under ca1 and find CA2_PRIVATE_KEY and replace it withprivate key – This key can be found in –
+Steps of Starting Hyperledger Fabric
+1. Open docker-compose-base.yaml file which is present in the bin folder and introduce
+following changes. As shown in the figure below –
+Change peer volume binding to (for all 4 peers)-
+2. To start fabric, run the following command – The output of the above command is shown below –
+3. After completing all these steps, you can run command – This will list all running containers regarding our network setup, in our case it will list 10containers.
+Proposed network setup is complete, our network have -  One orderer  Two Organizations  Four peers (two peers on each organization)
+ Couchdb for all peers
+4. Creating channel
+5. Joining first peer where channel is created —
+6. For other peers, we have to first fetch the config of block from orderer
+For Fetching –
+For joining channel –
+Install chainCode on every machine
+Start chaincode on one machine
+Conclusion
+We learnt about installing Hyperledger Fabric development tools and Hyperledger Composer usingLinux. We also successfully deployed a Hyperledger Fabric network having one orderer, two
+organizations and two peers in each organization.
